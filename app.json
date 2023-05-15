@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "magic-calculate",
+    "slug": "magic-calculate",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "magic-calculate"
+}
