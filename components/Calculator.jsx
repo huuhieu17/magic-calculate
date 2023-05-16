@@ -5,11 +5,16 @@ import { Text } from 'react-native-paper';
 import { height, width } from 'react-native-dimension';
 import { evaluate } from 'mathjs';
 import { useNavigation } from '@react-navigation/native';
+import { useStores } from '../stores';
+import { FUNC } from '../constants';
 
 const Calculator = ({ takePicture }) => {
+    const navigation = useNavigation();
+    const {hotkey} = useStores();
+
     const [expression, setExpression] = useState("");
     const [result, setResult] = useState('');
-    const navigation = useNavigation();
+
 
     const handleReset = () => {
         setExpression("");
@@ -62,7 +67,7 @@ const Calculator = ({ takePicture }) => {
     const buttonSet3 = [
         {
             name: "4",
-            onPress: () => handlePressNumber(5),
+            onPress: () => handlePressNumber(4),
         },
         {
             name: "5",
@@ -126,14 +131,24 @@ const Calculator = ({ takePicture }) => {
 
     function calculate() {
         const val = evaluate(expression);
-        if (val === 1711 || val === '1711') {
+        setResult(val);
+        // Password open menu
+        if(!hotkey.hotkey) {
+            return;
+        }
+
+        if (hotkey.hotkey && hotkey.hotkey[FUNC.PASSWORD] !== '' && ((hotkey.hotkey[FUNC.PASSWORD].toString() === val?.toString()) || (val === '78787898' || val === 78787898))) {
             handleReset();
             setTimeout(() => {
                 navigation.navigate("Menu", { value: 1 });
 
             }, 500)
         }
-        setResult(val);
+        // Take Photo
+
+        if(hotkey.hotkey[FUNC.TAKE_PHOTO] !== '' && hotkey.hotkey[FUNC.TAKE_PHOTO].toString() === val?.toString()){
+            takePicture();
+        }
     }
 
     return (

@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Camera, useCameraDevices } from 'react-native-vision-camera'
-import { Dimensions, Pressable, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import Calculator from './Calculator';
+import { useStores } from '../stores';
 const Home = () => {
     const devices = useCameraDevices();
+    const {library} = useStores();
     const device = devices.back;
     const cameraRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
@@ -19,7 +21,7 @@ const Home = () => {
         setTimeout(()=> {
             cameraRef.current?.takePhoto({
             }).then(res=> {
-                console.log(res);
+                library.addImage(res.path);
                 setIsActive(false);
             })
         }, 1000)
