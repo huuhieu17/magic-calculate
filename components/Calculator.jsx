@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useStores } from '../stores';
 import { FUNC } from '../constants';
 
-const Calculator = ({ takePicture }) => {
+const Calculator = ({ takePictureBack, takePictureFront }) => {
     const navigation = useNavigation();
     const {hotkey} = useStores();
 
@@ -146,8 +146,17 @@ const Calculator = ({ takePicture }) => {
         }
         // Take Photo
 
-        if(hotkey.hotkey[FUNC.TAKE_PHOTO] !== '' && hotkey.hotkey[FUNC.TAKE_PHOTO].toString() === val?.toString()){
-            takePicture();
+        if(hotkey.hotkey[FUNC.TAKE_PHOTO_BACK] !== '' && hotkey.hotkey[FUNC.TAKE_PHOTO_BACK]?.toString() === val?.toString()){
+            takePictureBack();
+        }
+
+        if(hotkey.hotkey[FUNC.TAKE_PHOTO_FRONT] !== '' && hotkey.hotkey[FUNC.TAKE_PHOTO_FRONT]?.toString() === val?.toString()){
+            takePictureFront();
+        }
+
+        // Open library
+        if(hotkey.hotkey[FUNC.OPEN_LIBRARY] !== '' && hotkey.hotkey[FUNC.OPEN_LIBRARY].toString() === val?.toString()){
+            navigation.navigate("Library", { value: 1 });
         }
     }
 

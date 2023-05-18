@@ -8,7 +8,9 @@ export class Library {
             name: Library.name,
             debugMode: false,
             properties: [
-              'hotkey',
+              'images',
+              'videos',
+              'audios',
             ],
           });
     }
@@ -18,8 +20,10 @@ export class Library {
     addImage = (image) => {
       this.images.push(image);
     }
-    removeImage = (index) => {
-      this.images = this.images.splice(index, 1);
+    removeImage = (path) => {
+      const listImage = [...this.images]
+      const listAfterRemove = listImage.filter(item => item != path);
+      this.images = listAfterRemove;
     }
     addVideo = (video) => {
       this.videos.push(video);

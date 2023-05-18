@@ -1,7 +1,8 @@
 export const FUNC = {
     PASSWORD: 'password',
     OPEN_LIBRARY: 'openLibrary',
-    TAKE_PHOTO: 'takePhoto',
+    TAKE_PHOTO_BACK: 'takePhotoBack',
+    TAKE_PHOTO_FRONT: 'takePhotoFront',
     START_RECORDING_VIDEO: 'startRecordingVideo',
     STOP_RECORDING_VIDEO: 'stopRecordingVideo',
     START_RECORDING_AUDIO: 'startRecordingAudio',
@@ -12,7 +13,8 @@ export const FUNC = {
 export const initHotKeyValue = {
     [FUNC.PASSWORD] : '1711',
     [FUNC.OPEN_LIBRARY]: '',
-    [FUNC.TAKE_PHOTO]: '',
+    [FUNC.TAKE_PHOTO_BACK]: '',
+    [FUNC.TAKE_PHOTO_FRONT]: '',
     [FUNC.START_RECORDING_VIDEO]: '',
     [FUNC.STOP_RECORDING_VIDEO]: '',
     [FUNC.START_RECORDING_AUDIO]: '',

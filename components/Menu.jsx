@@ -66,12 +66,25 @@ const Menu = () => {
                                     height: 30,
                                 }} {...props} />
                         )} />
-                        <List.Item title="Chụp ảnh" right={(props) => (
+                        <List.Item title="Chụp ảnh cam sau" right={(props) => (
                             <TextInput onChangeText={(text) => {
                                 setTimeout(() => {
-                                    hotkey.setKeyValue(FUNC.TAKE_PHOTO, text);
+                                    hotkey.setKeyValue(FUNC.TAKE_PHOTO_BACK, text);
                                 }, 500);
-                            }} defaultValue={hotkey.hotkey[FUNC.TAKE_PHOTO]} keyboardType='number-pad' mode='outlined'
+                            }} defaultValue={hotkey.hotkey[FUNC.TAKE_PHOTO_BACK]} keyboardType='number-pad' mode='outlined'
+                                contentStyle={{
+                                    height: 30,
+                                    fontSize: 16
+                                }} outlineStyle={{
+                                    height: 30,
+                                }} {...props} />
+                        )} />
+                        <List.Item title="Chụp ảnh cam trước" right={(props) => (
+                            <TextInput onChangeText={(text) => {
+                                setTimeout(() => {
+                                    hotkey.setKeyValue(FUNC.TAKE_PHOTO_FRONT, text);
+                                }, 500);
+                            }} defaultValue={hotkey.hotkey[FUNC.TAKE_PHOTO_FRONT]} keyboardType='number-pad' mode='outlined'
                                 contentStyle={{
                                     height: 30,
                                     fontSize: 16

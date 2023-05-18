@@ -13,6 +13,7 @@ import Menu from "./components/Menu";
 import { navigationRef } from "./components/RootNavigator";
 import Tutorial from "./components/Tutorial";
 import { StoreProvider, hydrateStores } from "./stores/index";
+import Library from "./components/Library";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -72,6 +73,14 @@ export default function App() {
               component={() => (
                 <View style={styles.container}>
                   <Tutorial />
+                </View>
+              )}
+            />
+            <Stack.Screen
+              name="Library"
+              component={() => (
+                <View style={styles.container}>
+                  <Library />
                 </View>
               )}
             />
