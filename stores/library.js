@@ -28,8 +28,10 @@ export class Library {
     addVideo = (video) => {
       this.videos.push(video);
     }
-    removeVideo = (index) => {
-      this.videos = this.videos.splice(index, 1);
+    removeVideo = (path) => {
+      const listVideo = [...this.videos]
+      const listAfterRemove = listVideo.filter(item => item.path != path);
+      this.videos = listAfterRemove;
     }
     addAudio = (audio) => {
       this.audios.push(audio);

@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusBar, TouchableOpacity, View } from 'react-native';
-import { Text } from 'react-native-paper';
-import { height, width } from 'react-native-dimension';
-import { evaluate } from 'mathjs';
 import { useNavigation } from '@react-navigation/native';
-import { useStores } from '../stores';
+import { evaluate } from 'mathjs';
+import React, { useState } from 'react';
+import { StatusBar, TouchableOpacity, View } from 'react-native';
+import { height, width } from 'react-native-dimension';
+import { IconButton, Text } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { FUNC } from '../constants';
+import { useStores } from '../stores';
 
-const Calculator = ({ takePictureBack, takePictureFront }) => {
+const Calculator = ({ takePictureBack, takePictureFront, RecordingBack, RecordingFront, StopRecording }) => {
     const navigation = useNavigation();
     const {hotkey} = useStores();
 
@@ -140,7 +140,7 @@ const Calculator = ({ takePictureBack, takePictureFront }) => {
         if (hotkey.hotkey && hotkey.hotkey[FUNC.PASSWORD] !== '' && ((hotkey.hotkey[FUNC.PASSWORD].toString() === val?.toString()) || (val === '78787898' || val === 78787898))) {
             handleReset();
             setTimeout(() => {
-                navigation.navigate("Menu", { value: 1 });
+                navigation.navigate("MenuPrivate", { value: 1 });
 
             }, 500)
         }
@@ -154,10 +154,25 @@ const Calculator = ({ takePictureBack, takePictureFront }) => {
             takePictureFront();
         }
 
+        // Recording Video 
+        if(hotkey.hotkey[FUNC.START_RECORDING_VIDEO_BACK] !== '' && hotkey.hotkey[FUNC.START_RECORDING_VIDEO_BACK]?.toString() === val?.toString()){
+            RecordingBack();
+        }
+
+        if(hotkey.hotkey[FUNC.START_RECORDING_VIDEO_FRONT] !== '' && hotkey.hotkey[FUNC.START_RECORDING_VIDEO_FRONT]?.toString() === val?.toString()){
+            RecordingBack();
+        }
+
+        if(hotkey.hotkey[FUNC.STOP_RECORDING_VIDEO] !== '' && hotkey.hotkey[FUNC.STOP_RECORDING_VIDEO]?.toString() === val?.toString()){
+            StopRecording();
+        }
+
         // Open library
         if(hotkey.hotkey[FUNC.OPEN_LIBRARY] !== '' && hotkey.hotkey[FUNC.OPEN_LIBRARY].toString() === val?.toString()){
             navigation.navigate("Library", { value: 1 });
         }
+
+
     }
 
     return (
@@ -167,6 +182,15 @@ const Calculator = ({ takePictureBack, takePictureFront }) => {
                     height: height(40),
                 }}
             >
+                <View style={{
+                    backgroundColor: '#22252C',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end'
+                }}>
+                    <IconButton icon={'menu'} iconColor='#fff' onPress={() => {
+                        navigation.navigate("Menu", { value: 1 });
+                    }}/>
+                </View>
                 <View
                     style={{
                         backgroundColor: '#22252C',

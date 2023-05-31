@@ -9,6 +9,7 @@
     "ios": "npx react-native run-ios"
   },
   "dependencies": {
+    "@react-native-community/slider": "^4.4.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "expo": "~48.0.15",
@@ -24,11 +25,14 @@
     "react-native-dimension": "^1.0.6",
     "react-native-fs": "^2.20.0",
     "react-native-image-viewing": "^0.2.2",
+    "react-native-immersive": "^2.0.0",
     "react-native-mmkv": "^2.8.0",
     "react-native-paper": "^5.7.2",
     "react-native-safe-area-context": "^4.5.2",
     "react-native-screens": "^3.20.0",
+    "react-native-true-sight": "^2.0.0",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-video": "^5.2.1",
     "react-native-vision-camera": "^2.15.4"
   },
   "devDependencies": {

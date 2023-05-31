@@ -9,11 +9,12 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 import Home from "./components/Home";
-import Menu from "./components/Menu";
 import { navigationRef } from "./components/RootNavigator";
-import Tutorial from "./components/Tutorial";
+import Menu from "./components/Menu";
 import { StoreProvider, hydrateStores } from "./stores/index";
 import Library from "./components/Library";
+import MenuPrivate from "./components/MenuPrivate";
+import Tutorial from "./components/Tutorial";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -61,7 +62,21 @@ export default function App() {
               }}
             />
             <Stack.Screen
+              name="MenuPrivate"
+              options={{
+                animation: 'slide_from_bottom'
+              }}
+              component={() => (
+                <View style={styles.container}>
+                  <MenuPrivate />
+                </View>
+              )}
+            />
+            <Stack.Screen
               name="Menu"
+              options={{
+                animation: 'slide_from_right'
+              }}
               component={() => (
                 <View style={styles.container}>
                   <Menu />
@@ -69,22 +84,29 @@ export default function App() {
               )}
             />
             <Stack.Screen
-              name="Tutorial"
-              component={() => (
-                <View style={styles.container}>
-                  <Tutorial />
-                </View>
-              )}
-            />
-            <Stack.Screen
               name="Library"
+              options={{
+                animation: 'fade_from_bottom'
+              }}
               component={() => (
                 <View style={styles.container}>
                   <Library />
                 </View>
               )}
             />
+            <Stack.Screen
+              name="Tutorial"
+              options={{
+                animation: 'fade_from_bottom'
+              }}
+              component={() => (
+                <View style={styles.container}>
+                  <Tutorial />
+                </View>
+              )}
+            />
           </Stack.Navigator>
+          
         </NavigationContainer>
       </StoreProvider>
     </PaperProvider>

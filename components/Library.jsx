@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import { Image, Pressable, ToastAndroid, View } from 'react-native'
-import { BottomNavigation, Chip, Text } from 'react-native-paper'
+import React, { useEffect, useState } from 'react';
+import { Image, Pressable, ToastAndroid, View } from 'react-native';
+import ImageView from 'react-native-image-viewing';
+import Immersive from 'react-native-immersive';
+import { BottomNavigation, Button, Chip, Modal, Text } from 'react-native-paper';
+import { DefaultBottomControlsBar, DefaultMainControl, VideoPlayer } from 'react-native-true-sight';
+import Video from 'react-native-video';
 import { useStores } from '../stores';
 import GridView from './GridView';
-import ImageView from 'react-native-image-viewing';
-import { PicturesDirectoryPath } from 'react-native-fs';
+import { height } from 'react-native-dimension';
 
 var RNFS = require('react-native-fs');
 const Library = () => {
@@ -30,12 +33,12 @@ const Library = () => {
 }
 
 const PhotoRoute = () => {
-    const {library} = useStores();
+    const { library } = useStores();
     const [showImage, setShowImage] = useState(false);
     const [imageIndex, setImageIndex] = useState(0);
-    const RenderCardImage = ({item, index}) => {
+    const RenderCardImage = ({ item, index }) => {
         return (
-            <Pressable onPress={()=> {
+            <Pressable onPress={() => {
                 setImageIndex(index);
                 setShowImage(true);
             }} style={{
@@ -44,13 +47,13 @@ const PhotoRoute = () => {
             }}>
                 <Image style={{
                     aspectRatio: 1
-                }} source={{uri: 'file://'+item}}/>
+                }} source={{ uri: 'file://' + item }} />
             </Pressable>
         )
     }
     return (
         <View>
-        <GridView gap={10} itemPerRow={2} items={library.images.map((item, index) => <RenderCardImage item={item} index={index} />)} />
+            <GridView gap={10} itemPerRow={2} items={library.images.map((item, index) => <RenderCardImage item={item} index={index} />)} />
             <ImageView
                 images={library.images.map(item => {
                     return {
@@ -69,34 +72,136 @@ const PhotoRoute = () => {
                             flexDirection: 'row',
                             gap: 20
                         }}>
-                           <Chip style={{
-                            backgroundColor: 'white',
-                            borderWidth: 1, borderColor: 'white'
-                           }} icon="download" onPress={async () => {
-                            await RNFS.mkdir(RNFS.DownloadDirectoryPath+'/MagicCaculator');
-                            // Move picture to pictureDirectory
-                            const filename = library.images[imageIndex.imageIndex].split('/');
-                            await RNFS.copyFile(library.images[imageIndex.imageIndex], `${RNFS.DownloadDirectoryPath}/MagicCaculator/${Date.now()}${filename[filename.length - 1]}`);
-                            ToastAndroid.show('Đã lưu vào thiết bị', 3000)
-                           }}>Lưu vào thiết bị</Chip>
                             <Chip style={{
-                            backgroundColor: 'white',
-                            borderWidth: 1, borderColor: 'white'
-                           }} icon="delete" onPress={async () => {
-                            library.removeImage(library.images[imageIndex.imageIndex]);
-                            setShowImage(false)
-                           }}>Xoá</Chip>
+                                backgroundColor: 'white',
+                                borderWidth: 1, borderColor: 'white'
+                            }} icon="download" onPress={async () => {
+                                await RNFS.mkdir(RNFS.DownloadDirectoryPath + '/MagicCaculator');
+                                // Move picture to pictureDirectory
+                                const filename = library.images[imageIndex.imageIndex].split('/');
+                                await RNFS.copyFile(library.images[imageIndex.imageIndex], `${RNFS.DownloadDirectoryPath}/MagicCaculator/${Date.now()}${filename[filename.length - 1]}`);
+                                ToastAndroid.show('Đã lưu vào thiết bị', 3000)
+                            }}>Lưu vào thiết bị</Chip>
+                            <Chip style={{
+                                backgroundColor: 'white',
+                                borderWidth: 1, borderColor: 'white'
+                            }} icon="delete" onPress={async () => {
+                                library.removeImage(library.images[imageIndex.imageIndex]);
+                                setShowImage(false)
+                            }}>Xoá</Chip>
                         </View>
                     )
-                }} 
+                }}
             />
         </View>
     )
 
-   
+
 };
 
-const VideoRoute = () => <Text>Albums</Text>;
+const VideoRoute = () => {
+    const { library } = useStores();
+    const [showVideo, setShowVideo] = useState();
+
+    useEffect(() => {
+        if (Platform.OS === 'android') {
+            Immersive.on()
+            Immersive.setImmersive(true)
+        }
+        return () => {
+            if (Platform.OS === 'android') {
+                Immersive.off()
+                Immersive.setImmersive(false)
+            }
+            setShowVideo()
+        }
+    }, [])
+
+    const RenderVideo = ({ item, index }) => {
+        return (
+            <Pressable onPress={() => {
+                setShowVideo({
+                    path: item.path,
+                    index
+                });
+            }} style={{
+                width: '100%',
+                borderWidth: 1,
+            }}>
+                <Video source={{ uri: item.path }} paused={true} style={{
+                    aspectRatio: 1,
+                    width: '100%',
+                }} />
+            </Pressable>
+        )
+    }
+    return (
+        <View>
+            {!showVideo ? (
+                <GridView gap={10} itemPerRow={2} items={library.videos.map((item, index) => <RenderVideo item={item} index={index} />)} />
+
+            ) : (
+                <View style={{
+                    backgroundColor: 'black',
+                    height: '100%'
+                }}>
+                        <View style={{
+                            width: '100%',
+                            flexDirection: 'row',
+                            justifyContent: 'flex-end'
+                        }}>
+                            <Chip style={{
+                                backgroundColor: 'white',
+                                borderWidth: 1, borderColor: 'white',
+                                width: 100,
+                            }} icon="close" onPress={async () => {
+                                setShowVideo()
+                            }}>Đóng</Chip>
+                        </View>
+                        <Video
+                            style={{
+                                marginTop: 100,
+                                width: '100%',
+                                aspectRatio: 16/9,
+                            }}
+                            allowsExternalPlayback
+                            fullscreen={false}
+                            fullscreenAutorotate={true}
+                            fullscreenOrientation='all'
+                            paused={false}
+                            source={{ uri: showVideo.path }}
+                            controls={true}
+                        />
+                        <View style={{
+                            width: '100%',
+                            marginTop: 60,
+                            backgroundColor: 'black',
+                            flexDirection: 'row',
+                            gap: 20
+                        }}>
+                            <Chip style={{
+                                backgroundColor: 'white',
+                                borderWidth: 1, borderColor: 'white'
+                            }} icon="download" onPress={async () => {
+                                await RNFS.mkdir(RNFS.DownloadDirectoryPath + '/MagicCaculator');
+                                // Move picture to pictureDirectory
+                                const filename = library.videos[showVideo.index].path.split('/');
+                                await RNFS.copyFile(library.videos[showVideo.index].path, `${RNFS.DownloadDirectoryPath}/MagicCaculator/${Date.now()}${filename[filename.length - 1]}`);
+                                ToastAndroid.show('Đã lưu vào thiết bị', 3000)
+                            }}>Lưu vào thiết bị</Chip>
+                            <Chip style={{
+                                backgroundColor: 'white',
+                                borderWidth: 1, borderColor: 'white'
+                            }} icon="delete" onPress={async () => {
+                                library.removeVideo(library.videos[showVideo.index]);
+                                setShowVideo()
+                            }}>Xoá</Chip>
+                        </View>
+                </View>
+            )}
+        </View>
+    )
+};
 
 const AudioRoute = () => <Text>Recents</Text>;
 
