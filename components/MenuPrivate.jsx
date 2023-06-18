@@ -161,7 +161,7 @@ const MenuPrivate = () => {
                     <List.Accordion
                         title="Chức năng khác"
                         left={props => <List.Icon {...props} icon="folder" />}>
-                        {/* <List.Item title="Mở ghi chú bí mật" right={(props) => (
+                        <List.Item title="Mở ghi chú bí mật" right={(props) => (
                             <TextInput onChangeText={(text) => {
                                 setTimeout(() => {
                                     hotkey.setKeyValue(FUNC.OPEN_NOTE, text);
@@ -173,7 +173,7 @@ const MenuPrivate = () => {
                                 }} outlineStyle={{
                                     height: 30,
                                 }} {...props} />
-                        )} /> */}
+                        )} />
                         <List.Item title="Comming soon" />
                     </List.Accordion>
                 </List.Section>

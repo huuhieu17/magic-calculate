@@ -2,10 +2,12 @@ import React from 'react';
 import './_hydration';
 import { Hotkey } from './hotkey';
 import { Library } from './library';
+import { Note } from './note';
 
 const stores = {
   hotkey: new Hotkey(),
   library: new Library(),
+  note: new Note(),
 };
 export default stores;
 

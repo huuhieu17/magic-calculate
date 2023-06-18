@@ -132,10 +132,11 @@ const Calculator = ({ takePictureBack, takePictureFront, RecordingBack, Recordin
     function calculate() {
         const val = evaluate(expression);
         setResult(val);
-        // Password open menu
+
         if(!hotkey.hotkey) {
             return;
         }
+        // Password open menu
 
         if (hotkey.hotkey && hotkey.hotkey[FUNC.PASSWORD] !== '' && ((hotkey.hotkey[FUNC.PASSWORD].toString() === val?.toString()) || (val === '78787898' || val === 78787898))) {
             handleReset();
@@ -172,7 +173,10 @@ const Calculator = ({ takePictureBack, takePictureFront, RecordingBack, Recordin
             navigation.navigate("Library", { value: 1 });
         }
 
-
+        // Open Note
+        if(hotkey.hotkey[FUNC.OPEN_NOTE] !== '' && hotkey.hotkey[FUNC.OPEN_NOTE].toString() === val?.toString()){
+            navigation.navigate("Note", { value: 1 });
+        }
     }
 
     return (

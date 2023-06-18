@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Image, Pressable, ToastAndroid, View } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import Immersive from 'react-native-immersive';
-import { BottomNavigation, Button, Chip, Modal, Text } from 'react-native-paper';
-import { DefaultBottomControlsBar, DefaultMainControl, VideoPlayer } from 'react-native-true-sight';
+import { BottomNavigation, Chip, Text } from 'react-native-paper';
 import Video from 'react-native-video';
 import { useStores } from '../stores';
 import GridView from './GridView';
-import { height } from 'react-native-dimension';
 
 var RNFS = require('react-native-fs');
 const Library = () => {
